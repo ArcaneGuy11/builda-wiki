@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builda Wiki</title>
+  <style>
+    :root {
+      --text: #17171b;
+      --muted: #6d6d74;
+      --line: #e7e7e9;
+      --panel: #f7f7f8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Helvetica, Arial, sans-serif;
+    }
+
+    header {
+      height: 128px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 40px;
+      border-bottom: 1px solid #f0f0f0;
+      box-shadow: 0 5px 20px rgba(0,0,0,.025);
+    }
+
+    .menu-button {
+      width: 54px;
+      height: 54px;
+      border: 0;
+      background: transparent;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .menu-button span {
+      display: block;
+      width: 43px;
+      height: 4px;
+      border-radius: 5px;
+      background: #222;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+    }
+
+    .brand-name {
+      font-size: 39px;
+      font-weight: 500;
+      letter-spacing: -.8px;
+      white-space: nowrap;
+    }
+
+    .language {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: #222;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 12px 0;
+    }
+
+    .menu {
+      position: fixed;
+      top: 128px;
+      left: 0;
+      width: 280px;
+      height: calc(100vh - 128px);
+      background: #fff;
+      border-right: 1px solid var(--line);
+      box-shadow: 8px 0 24px rgba(0,0,0,.08);
+      padding: 28px;
+      transform: translateX(-105%);
+      transition: transform .22s ease;
+      z-index: 10;
+    }
+
+    .menu.open { transform: translateX(0); }
+
+    .menu a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 20px;
+      padding: 15px 4px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    main {
+      max-width: 930px;
+      margin: 68px auto 100px;
+      padding: 0 38px;
+    }
+
+    .contents {
+      width: 100%;
+      border: 1px solid #e3e3e5;
+      background: var(--panel);
+      border-radius: 40px;
+      padding: 30px 38px;
+      margin-bottom: 84px;
+      cursor: pointer;
+      font-size: 29px;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0,0,0,.02);
+    }
+
+    .contents-list {
+      display: none;
+      margin-top: 22px;
+      padding: 0 0 0 35px;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    .contents-list.open { display: block; }
+
+    section {
+      padding: 0 0 70px;
+      margin-bottom: 68px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      border-bottom: 0;
+    }
+
+    h1, h2 {
+      margin: 0 0 34px;
+      font-weight: 500;
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+    }
+
+    h1 { font-size: 58px; }
+    h2 { font-size: 55px; }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 27px;
+      line-height: 1.48;
+      font-weight: 500;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        height: 92px;
+        padding: 0 18px;
+        gap: 12px;
+      }
+
+      .menu-button {
+        width: 45px;
+        height: 45px;
+      }
+
+      .menu-button span {
+        width: 34px;
+        height: 3px;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+      }
+
+      .brand { gap: 11px; }
+      .brand-name { font-size: 27px; }
+      .language { font-size: 20px; }
+
+      .menu {
+        top: 92px;
+        height: calc(100vh - 92px);
+      }
+
+      main {
+        margin-top: 38px;
+        padding: 0 20px;
+      }
+
+      .contents {
+        border-radius: 30px;
+        padding: 22px 25px;
+        margin-bottom: 55px;
+        font-size: 23px;
+      }
+
+      h1 { font-size: 43px; }
+      h2 { font-size: 40px; }
+      p { font-size: 21px; }
+      section { margin-bottom: 45px; padding-bottom: 45px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="brand">
+      <img class="logo" src="buildalogo.jpg" alt="Builda logo">
+      <div class="brand-name">Builda Wiki</div>
+    </div>
+
+    <button class="language" id="languageButton" aria-label="Change language">中文</button>
+  </header>
+
+  <aside class="menu" id="sideMenu">
+    <a href="#welcome" data-en="Welcome" data-zh="欢迎">Welcome</a>
+    <a href="#what-is-builda" data-en="What is Builda Wiki" data-zh="什么是 Builda Wiki">What is Builda Wiki</a>
+    <a href="#get-started" data-en="Get Started" data-zh="开始使用">Get Started</a>
+  </aside>
+
+  <main>
+    <div class="contents" id="contentsButton">
+      <span id="contentsTitle">▶ Contents</span>
+      <div class="contents-list" id="contentsList">
+        <div>Welcome to Builda Wiki</div>
+        <div>What is Builda Wiki</div>
+        <div>Get Started to Build it</div>
+      </div>
+    </div>
+
+    <section id="welcome">
+      <h1 id="welcomeTitle">Welcome to Builda Wiki</h1>
+      <p id="welcomeText">
+        Builda Wiki can do this 4.x engine on Builda. For create or play,
+        draw OC, and better.
+      </p>
+    </section>
+
+    <section id="what-is-builda">
+      <h2 id="whatTitle">What is Builda Wiki</h2>
+      <p id="whatText">
+        Builda 4.x engine for wiki something Builda tutorial, Builda isn't
+        bad scripting, Builda is good scripting. Without coding for everyone
+        else, make scripting Builda for a tutorial.
+      </p>
+    </section>
+
+    <section id="get-started">
+      <h2 id="startedTitle">Get Started to Build it</h2>
+      <p id="startedText">
+        Builda with creating, playing games, and drawing OC. Build Apps for Phones.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const sideMenu = document.getElementById("sideMenu");
+    const contentsButton = document.getElementById("contentsButton");
+    const contentsList = document.getElementById("contentsList");
+    const languageButton = document.getElementById("languageButton");
+
+    let language = "en";
+
+    menuButton.addEventListener("click", () => {
+      const open = sideMenu.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", open);
+    });
+
+    contentsButton.addEventListener("click", () => {
+      contentsList.classList.toggle("open");
+      const title = document.getElementById("contentsTitle");
+      title.textContent = contentsList.classList.contains("open")
+        ? "▼ Contents"
+        : "▶ Contents";
+    });
+
+    languageButton.addEventListener("click", () => {
+      language = language === "en" ? "zh" : "en";
+
+      if (language === "zh") {
+        document.documentElement.lang = "zh-CN";
+        languageButton.textContent = "English";
+        document.getElementById("contentsTitle").textContent =
+          contentsList.classList.contains("open") ? "▼ 目录" : "▶ 目录";
+        document.getElementById("welcomeTitle").textContent = "欢迎来到 Builda Wiki";
+        document.getElementById("welcomeText").textContent =
+          "Builda Wiki 可以介绍 Builda 4.x 引擎，用于创建或游玩游戏、绘制 OC，以及更多内容。";
+        document.getElementById("whatTitle").textContent = "什么是 Builda Wiki";
+        document.getElementById("whatText").textContent =
+          "这是一个关于 Builda 4.x 引擎的 Wiki 和教程。Builda 不需要复杂的编程，也可以帮助大家学习制作游戏。";
+        document.getElementById("startedTitle").textContent = "开始使用 Builda";
+        document.getElementById("startedText").textContent =
+          "使用 Builda 创建和游玩游戏、绘制 OC，并为手机制作应用。";
+
+        sideMenu.querySelectorAll("a").forEach(a => {
+          a.textContent = a.dataset.zh;
+        });
+      } else {
+        document.documentElement.lang = "en";
+        languageButton.textContent = "中文";
+        document.getElementById("contentsTitle").textContent =
+          contentsList.classList.contains("open") ? "▼ Contents" : "▶ Contents";
+        document.getElementById("welcomeTitle").textContent = "Welcome to Builda Wiki";
+        document.getElementById("welcomeText").textContent =
+          "Builda Wiki can do this 4.x engine on Builda. For create or play, draw OC, and better.";
+        document.getElementById("whatTitle").textContent = "What is Builda Wiki";
+        document.getElementById("whatText").textContent =
+          "Builda 4.x engine for wiki something Builda tutorial, Builda isn't bad scripting, Builda is good scripting. Without coding for everyone else, make scripting Builda for a tutorial.";
+        document.getElementById("startedTitle").textContent = "Get Started to Build it";
+        document.getElementById("startedText").textContent =
+          "Builda with creating, playing games, and drawing OC. Build Apps for Phones.";
+
+        sideMenu.querySelectorAll("a").forEach(a => {
+          a.textContent = a.dataset.en;
+        });
+      }
+    });
+  </script>
+</body>
+</html>
