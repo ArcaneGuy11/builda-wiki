@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assets - Builda Wiki</title>
+
+  <style>
+    :root {
+      --text: #17171b;
+      --muted: #6d6d74;
+      --line: #e7e7e9;
+      --panel: #f7f7f8;
+      --accent: #1683ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    }
+
+    /* Header */
+
+    header {
+      height: 128px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 40px;
+      border-bottom: 1px solid #f0f0f0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.025);
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.97);
+      z-index: 20;
+    }
+
+    /* 3-stick menu */
+
+    .menu-button {
+      width: 54px;
+      height: 54px;
+      border: 0;
+      background: transparent;
+      padding: 8px;
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .menu-button span {
+      display: block;
+      width: 43px;
+      height: 4px;
+      border-radius: 5px;
+      background: #222;
+    }
+
+    /* Brand */
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .brand-name {
+      font-size: 39px;
+      font-weight: 500;
+      letter-spacing: -0.8px;
+      white-space: nowrap;
+    }
+
+    /* Language */
+
+    .language {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: #222;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 12px 0;
+    }
+
+    /* Side menu */
+
+    .menu {
+      position: fixed;
+      top: 128px;
+      left: 0;
+
+      width: 300px;
+      height: calc(100vh - 128px);
+
+      background: #fff;
+      border-right: 1px solid var(--line);
+      box-shadow: 8px 0 24px rgba(0, 0, 0, 0.08);
+
+      padding: 28px;
+
+      transform: translateX(-105%);
+      transition: transform 0.22s ease;
+
+      z-index: 19;
+      overflow-y: auto;
+    }
+
+    .menu.open {
+      transform: translateX(0);
+    }
+
+    .menu a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 19px;
+      padding: 15px 4px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .menu a:hover {
+      color: var(--accent);
+    }
+
+    /* Main */
+
+    main {
+      max-width: 930px;
+      margin: 62px auto 100px;
+      padding: 0 38px;
+    }
+
+    /* Contents */
+
+    .contents {
+      border: 1px solid #e3e3e5;
+      background: var(--panel);
+      border-radius: 40px;
+
+      padding: 30px 38px;
+      margin-bottom: 72px;
+
+      cursor: pointer;
+      font-size: 29px;
+      font-weight: 600;
+    }
+
+    .contents-list {
+      display: none;
+      margin-top: 22px;
+      padding-left: 35px;
+
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    .contents-list.open {
+      display: block;
+    }
+
+    .contents-list a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .contents-list a:hover {
+      color: var(--accent);
+    }
+
+    /* Sections */
+
+    section {
+      padding: 0 0 60px;
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      border-bottom: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0 0 30px;
+      font-weight: 500;
+      letter-spacing: -1.3px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: 54px;
+    }
+
+    h2 {
+      font-size: 45px;
+    }
+
+    h3 {
+      font-size: 31px;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    p {
+      margin: 0 0 25px;
+    }
+
+    ul {
+      padding-left: 30px;
+      margin: 12px 0 28px;
+    }
+
+    li {
+      margin: 10px 0;
+    }
+
+    /* Notes */
+
+    .note {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px 25px;
+      margin: 25px 0;
+      background: var(--panel);
+    }
+
+    /* Asset cards */
+
+    .asset-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+
+      padding: 22px 25px;
+      margin: 25px 0;
+
+      background: #fff;
+    }
+
+    .asset-card h3 {
+      margin-bottom: 10px;
+      font-size: 27px;
+    }
+
+    /* Images */
+
+    .image-card {
+      margin: 25px 0 35px;
+
+      border: 1px solid var(--line);
+      border-radius: 22px;
+
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .image-card img {
+      width: 100%;
+      max-height: 560px;
+
+      object-fit: contain;
+      display: block;
+
+      background: #fff;
+    }
+
+    .image-caption {
+      padding: 12px 18px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* UI list */
+
+    .ui-list {
+      columns: 2;
+      column-gap: 40px;
+    }
+
+    .ui-list li {
+      break-inside: avoid;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 700px) {
+      header {
+        height: 92px;
+        padding: 0 18px;
+        gap: 12px;
+      }
+
+      .menu-button {
+        width: 45px;
+        height: 45px;
+      }
+
+      .menu-button span {
+        width: 34px;
+        height: 3px;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+      }
+
+      .brand {
+        gap: 11px;
+      }
+
+      .brand-name {
+        font-size: 27px;
+      }
+
+      .language {
+        font-size: 20px;
+      }
+
+      .menu {
+        top: 92px;
+        height: calc(100vh - 92px);
+      }
+
+      main {
+        margin-top: 38px;
+        padding: 0 20px;
+      }
+
+      .contents {
+        border-radius: 30px;
+        padding: 22px 25px;
+        margin-bottom: 50px;
+        font-size: 23px;
+      }
+
+      h1 {
+        font-size: 41px;
+      }
+
+      h2 {
+        font-size: 36px;
+      }
+
+      h3 {
+        font-size: 26px;
+      }
+
+      p,
+      li {
+        font-size: 19px;
+      }
+
+      .ui-list {
+        columns: 1;
+      }
+
+      section {
+        margin-bottom: 45px;
+        padding-bottom: 45px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="brand">
+      <img
+        class="logo"
+        src="/images/buildalogo.jpg"
+        alt="Builda logo"
+      >
+
+      <div class="brand-name">
+        Builda Wiki
+      </div>
+    </div>
+
+    <button
+      class="language"
+      id="languageButton"
+      aria-label="Change language"
+    >
+      中文
+    </button>
+
+  </header>
+
+
+  <!-- SIDE MENU -->
+
+  <aside class="menu" id="sideMenu">
+
+    <a href="index.html">
+      Builda Wiki
+    </a>
+
+    <a href="#classification">
+      1. Asset classification
+    </a>
+
+    <a href="#asset-maps">
+      2. Asset maps
+    </a>
+
+    <a href="#tiles">
+      Tiles
+    </a>
+
+    <a href="#deco">
+      Deco
+    </a>
+
+    <a href="#actor">
+      Actor
+    </a>
+
+    <a href="#prop">
+      Prop
+    </a>
+
+    <a href="#item">
+      Item
+    </a>
+
+    <a href="#weapon">
+      Weapon
+    </a>
+
+    <a href="#components">
+      Components
+    </a>
+
+    <a href="#ui">
+      UI assets
+    </a>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main>
+
+    <!-- CONTENTS -->
+
+    <div class="contents" id="contentsButton">
+
+      <span id="contentsTitle">
+        ▶ Contents
+      </span>
+
+      <div class="contents-list" id="contentsList">
+
+        <a href="#classification">
+          1. Asset classification
+        </a>
+
+        <a href="#asset-maps">
+          2. Asset maps
+        </a>
+
+        <a href="#tiles">
+          Tiles
+        </a>
+
+        <a href="#deco">
+          Deco
+        </a>
+
+        <a href="#actor">
+          Actor
+        </a>
+
+        <a href="#prop">
+          Prop
+        </a>
+
+        <a href="#item">
+          Item
+        </a>
+
+        <a href="#weapon">
+          Weapon
+        </a>
+
+        <a href="#components">
+          Components
+        </a>
+
+        <a href="#ui">
+          UI assets
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- 1. ASSET CLASSIFICATION -->
+
+    <section id="classification">
+
+      <h1>
+        Basic: Assets
+      </h1>
+
+      <h2>
+        1. Asset classification
+      </h2>
+
+      <p>
+        In Builda engine, map assets are divided into six types
+        (left image):
+        <strong>
+          Tiles, Deco, Actor, Prop, Items, and Weapons
+        </strong>!
+      </p>
+
+      <div class="note">
+
+        <p>
+          <strong>Note:</strong>
+          Assets are not objects. Placing assets on the map creates
+          objects. The icons for the two are also different in the engine.
+        </p>
+
+      </div>
+
+      <div class="image-card">
+
+        <img
+          src="docs/images/asset1.jpg"
+          alt="Builda asset classification"
+        >
+
+        <div class="image-caption">
+          Image: docs/images/asset1.jpg
+        </div>
+
+      </div>
+
+      <p>
+        There is only one type of UI asset (right image):
+        <strong>UI</strong>.
+      </p>
+
+      <div class="image-card">
+
+        <img
+          src="docs/images/asset2.jpg"
+          alt="Builda UI asset"
+        >
+
+        <div class="image-caption">
+          Image: docs/images/asset2.jpg
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 2. ASSET MAPS -->
+
+    <section id="asset-maps">
+
+      <h2>
+        2. Asset maps
+      </h2>
+
+
+      <!-- TILES -->
+
+      <div class="asset-card" id="tiles">
+
+        <h3>
+          Tiles
+        </h3>
+
+        <p>
+          It is commonly used for overall ground paving and is placed
+          at the lowest level of the display, such as for creating an
+          overall atmosphere in landscapes, gardens, courtyards, the
+          vast universe, and streets.
+        </p>
+
+      </div>
+
+
+      <!-- DECO -->
+
+      <div class="asset-card" id="deco">
+
+        <h3>
+          Deco
+        </h3>
+
+        <p>
+          Based on the site, add some beautiful embellishments to the
+          overall environment. For example, clouds on the horizon,
+          distant mountains, and interior wall paintings.
+        </p>
+
+      </div>
+
+
+      <!-- ACTOR -->
+
+      <div class="asset-card" id="actor">
+
+        <h3>
+          Actor
+        </h3>
+
+        <p>
+          The game features characters from different factions, such as
+          the protagonist, NPCs, enemies, and monsters.
+        </p>
+
+      </div>
+
+
+      <!-- PROP -->
+
+      <div class="asset-card" id="prop">
+
+        <h3>
+          Prop
+        </h3>
+
+        <p>
+          Functional materials are called devices, such as circular saws,
+          fireballs, spikes, bombs, buttons, signs, monster doors, etc.
+          In addition to the officially built-in devices, we can customize
+          any device we want to use.
+        </p>
+
+      </div>
+
+
+      <!-- ITEM -->
+
+      <div class="asset-card" id="item">
+
+        <h3>
+          Item
+        </h3>
+
+        <p>
+          Some collectible items, such as health potions, experience orbs,
+          and gold coins.
+        </p>
+
+      </div>
+
+
+      <!-- WEAPON -->
+
+      <div class="asset-card" id="weapon">
+
+        <h3>
+          Weapon
+        </h3>
+
+        <p>
+          Anything that can cause harm when held in your hand, whether
+          it's a melee weapon like a sword, spear, or halberd, or a ranged
+          weapon like a pistol, submachine gun, staff, or anti-aircraft gun,
+          is collectively called a weapon.
+        </p>
+
+      </div>
+
+
+      <!-- COMPONENT NOTE -->
+
+      <div class="note">
+
+        <p>
+          The assets themselves don't have any practical function;
+          placing them on the map is purely for aesthetic purposes.
+          They only unleash their full potential when different components
+          are added.
+        </p>
+
+        <p>
+          The official built-in assets have already completed the
+          <strong>
+            "add different components"
+          </strong>
+          step for you, but when creating your own assets, you'll need
+          to choose the appropriate components and assemble them yourself.
+        </p>
+
+        <p>
+          Referring to the official assets for learning is a great approach!
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- COMPONENTS -->
+
+    <section id="components">
+
+      <h2>
+        Components and asset types
+      </h2>
+
+      <p>
+        <strong>Note:</strong>
+        Different types of materials can have different components added!
+        See the table below:
+      </p>
+
+      <div class="image-card">
+
+        <img
+          src="docs/images/assets3.jpg"
+          alt="Builda asset component table"
+        >
+
+        <div class="image-caption">
+          Image: docs/images/assets3.jpg
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- UI -->
+
+    <section id="ui">
+
+      <h2>
+        UI assets
+      </h2>
+
+      <p>
+        In the game creation platform, the UI is divided into
+        <strong>
+          Map UI, controlUI, and objectUI
+        </strong>.
+      </p>
+
+      <p>
+        The UI elements mainly include:
+      </p>
+
+      <ul class="ui-list">
+
+        <li>
+          Buttons
+        </li>
+
+        <li>
+          Input boxes
+        </li>
+
+        <li>
+          Checkboxes
+        </li>
+
+        <li>
+          Sliders
+        </li>
+
+        <li>
+          Progress bars
+        </li>
+
+        <li>
+          Joysticks
+        </li>
+
+        <li>
+          Interactive buttons
+        </li>
+
+        <li>
+          Weapon/item joysticks
+        </li>
+
+        <li>
+          Skill joysticks
+        </li>
+
+        <li>
+          Jump buttons
+        </li>
+
+        <li>
+          Movement joysticks
+        </li>
+
+        <li>
+          Currency bars
+        </li>
+
+      </ul>
+
+    </section>
+
+  </main>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const sideMenu =
+      document.getElementById("sideMenu");
+
+    const contentsButton =
+      document.getElementById("contentsButton");
+
+    const contentsList =
+      document.getElementById("contentsList");
+
+    const contentsTitle =
+      document.getElementById("contentsTitle");
+
+
+    /* 3-stick menu */
+
+    menuButton.addEventListener("click", () => {
+
+      const open =
+        sideMenu.classList.toggle("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        open
+      );
+
+    });
+
+
+    /* Contents */
+
+    contentsButton.addEventListener("click", (event) => {
+
+      if (event.target.closest("a")) {
+        return;
+      }
+
+      contentsList.classList.toggle("open");
+
+      contentsTitle.textContent =
+        contentsList.classList.contains("open")
+          ? "▼ Contents"
+          : "▶ Contents";
+
+    });
+
+
+    /* Close menu after navigation */
+
+    document
+      .querySelectorAll(".menu a, .contents-list a")
+      .forEach((link) => {
+
+        link.addEventListener("click", () => {
+
+          sideMenu.classList.remove("open");
+
+          menuButton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        });
+
+      });
+
+
+    /* Language button */
+
+    document
+      .getElementById("languageButton")
+      .addEventListener("click", () => {
+
+        alert(
+          "Chinese translation can be added to this page."
+        );
+
+      });
+
+  </script>
+
+</body>
+</html>
