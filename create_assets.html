@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Assets or Folders - Builda Wiki</title>
+
+  <style>
+    :root {
+      --text: #17171b;
+      --muted: #6d6d74;
+      --line: #e7e7e9;
+      --panel: #f7f7f8;
+      --accent: #1683ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Arial, sans-serif;
+    }
+
+    /* Header */
+
+    header {
+      height: 110px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 32px;
+      border-bottom: 1px solid #f0f0f0;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.97);
+      z-index: 20;
+    }
+
+    .menu-button {
+      width: 48px;
+      height: 48px;
+      border: none;
+      background: transparent;
+      padding: 5px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .menu-button span {
+      display: block;
+      width: 36px;
+      height: 4px;
+      background: #222;
+      border-radius: 5px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .brand-name {
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: -0.8px;
+      white-space: nowrap;
+    }
+
+    .language {
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      color: #222;
+      font-size: 23px;
+      cursor: pointer;
+      padding: 12px 0;
+    }
+
+    /* Sidebar */
+
+    .sidebar {
+      position: fixed;
+      top: 110px;
+      left: 0;
+      width: 290px;
+      height: calc(100vh - 110px);
+      padding: 24px;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      box-shadow: 8px 0 24px rgba(0, 0, 0, 0.07);
+      transform: translateX(-105%);
+      transition: transform 0.22s ease;
+      z-index: 19;
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 14px 4px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sidebar a:hover {
+      color: var(--accent);
+    }
+
+    /* Main content */
+
+    main {
+      max-width: 900px;
+      margin: 50px auto 90px;
+      padding: 0 32px;
+    }
+
+    /* Contents */
+
+    .contents {
+      border: 1px solid #e3e3e5;
+      background: var(--panel);
+      border-radius: 28px;
+      padding: 25px 30px;
+      margin-bottom: 60px;
+      cursor: pointer;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .contents-list {
+      display: none;
+      margin-top: 20px;
+      padding-left: 20px;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.9;
+    }
+
+    .contents-list.open {
+      display: block;
+    }
+
+    .contents-list a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .contents-list a:hover {
+      color: var(--accent);
+    }
+
+    /* Headings */
+
+    section {
+      padding-bottom: 48px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 135px;
+    }
+
+    section:last-child {
+      border-bottom: none;
+    }
+
+    h1, h2, h3 {
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin: 0 0 28px;
+    }
+
+    h2 {
+      font-size: 36px;
+      margin: 0 0 24px;
+    }
+
+    h3 {
+      font-size: 27px;
+      margin: 0 0 15px;
+    }
+
+    p, li {
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    p {
+      margin: 0 0 22px;
+    }
+
+    ul, ol {
+      padding-left: 28px;
+      margin: 12px 0 24px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    strong {
+      color: var(--text);
+    }
+
+    /* Information cards */
+
+    .note {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 20px;
+      padding: 22px 24px;
+      margin: 24px 0;
+    }
+
+    .note p:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      margin: 24px 0;
+      background: #fff;
+    }
+
+    .info-card h3 {
+      font-size: 25px;
+    }
+
+    .info-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Documentation images */
+
+    .image-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 24px 0 32px;
+      background: var(--panel);
+    }
+
+    .image-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 600px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .image-caption {
+      padding: 12px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Mobile layout */
+
+    @media (max-width: 650px) {
+      header {
+        height: 82px;
+        padding: 0 14px;
+        gap: 10px;
+      }
+
+      .menu-button {
+        width: 38px;
+        height: 42px;
+      }
+
+      .menu-button span {
+        width: 30px;
+        height: 3px;
+      }
+
+      .logo {
+        width: 43px;
+        height: 43px;
+        border-radius: 12px;
+      }
+
+      .brand {
+        gap: 9px;
+      }
+
+      .brand-name {
+        font-size: 24px;
+      }
+
+      .language {
+        font-size: 17px;
+      }
+
+      .sidebar {
+        top: 82px;
+        height: calc(100vh - 82px);
+        width: min(290px, 85vw);
+      }
+
+      main {
+        margin-top: 35px;
+        padding: 0 18px;
+      }
+
+      .contents {
+        padding: 22px;
+        font-size: 22px;
+        margin-bottom: 45px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      h2 {
+        font-size: 30px;
+      }
+
+      h3 {
+        font-size: 24px;
+      }
+
+      p, li {
+        font-size: 17px;
+      }
+
+      .info-card,
+      .note {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+    <button
+      class="menu-button"
+      id="menuButton"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="brand">
+      <img
+        class="logo"
+        src="buildalogo.jpg"
+        alt="Builda logo"
+      >
+
+      <div class="brand-name">Builda Wiki</div>
+    </div>
+
+    <button
+      class="language"
+      id="languageButton"
+      aria-label="Change language"
+    >
+      中文
+    </button>
+  </header>
+
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html">Builda Wiki</a>
+    <a href="assets.html">Basic: Assets</a>
+    <a href="custom_components.html">Basic: Custom components</a>
+    <a href="#import-assets">1. Import assets</a>
+    <a href="#edit-assets">2. Edit assets</a>
+    <a href="#delete-assets">3. Delete assets</a>
+    <a href="#folder-assets">4. Folder assets</a>
+    <a href="#copy-assets">5. Copy assets</a>
+    <a href="#image-folder">6. Asset Image Folder</a>
+    <a href="#add-components">7. Add components to the images</a>
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+
+  <main>
+
+    <!-- TABLE OF CONTENTS -->
+
+    <div class="contents" id="contentsButton">
+      <span id="contentsTitle">▶ Contents</span>
+
+      <div class="contents-list" id="contentsList">
+        <a href="#import-assets">1. Import assets</a>
+        <a href="#edit-assets">2. Edit assets</a>
+        <a href="#delete-assets">3. Delete assets</a>
+        <a href="#folder-assets">4. Folder assets</a>
+        <a href="#copy-assets">5. Copy assets</a>
+        <a href="#image-folder">6. Asset Image Folder</a>
+        <a href="#add-components">7. Add components to the images</a>
+      </div>
+    </div>
+
+
+    <!-- PAGE TITLE -->
+
+    <section id="top">
+      <h1>Basic: Create assets or folders</h1>
+
+      <p>
+        An asset is a combination of textures and various components.
+      </p>
+    </section>
+
+
+    <!-- 1. IMPORT ASSETS -->
+
+    <section id="import-assets">
+
+      <h2>1. Import assets</h2>
+
+      <p>
+        The blue <strong>"1"</strong> on the far left of each category's
+        assets section is the entry point for importing assets.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create1.jpg"
+          alt="Asset import entry point"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create1.jpg
+        </div>
+      </div>
+
+      <p>There are four ways to import assets:</p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create2.jpg"
+          alt="Four ways to import assets"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create2.jpg
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>1. Draw</h3>
+        <p>Draw your own assets.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>2. Import assets</h3>
+        <p>Import assets from your images.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>3. Resource Library</h3>
+        <p>
+          The resource library stores all the resources you have created.
+          Assets can be imported into the current project.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>4. Asset Store</h3>
+        <p>
+          Purchase resources from other players in the Builda Asset Store.
+        </p>
+      </div>
+
+      <div class="note">
+        <p>
+          <strong>Note:</strong>
+          When others sell assets, they may have some custom components
+          and scripts attached to them. When you buy these assets and
+          import them into your own project, these things will be imported
+          as well. This is why you sometimes find some unfamiliar assets
+          and custom components.
+        </p>
+
+        <p>
+          <strong>Note:</strong>
+          Imported assets that are not original cannot be sold to merchants.
+        </p>
+      </div>
+
+      <h3>Multiple images for one asset</h3>
+
+      <p>
+        The same asset can have multiple images, which can save the number
+        of assets you need to create.
+      </p>
+
+      <p>
+        For example, if there are many different types of towers, you can
+        create only one tower asset and put the other types in its textures,
+        avoiding the need to create a bunch of separate tower assets.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create3.jpg"
+          alt="One asset using multiple images"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create3.jpg
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 2. EDIT ASSETS -->
+
+    <section id="edit-assets">
+
+      <h2>2. Edit assets</h2>
+
+      <p>Here we first understand two concepts.</p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create4.jpg"
+          alt="Asset editing concepts"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create4.jpg
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>The asset itself</h3>
+        <p>
+          The asset itself refers to the asset in the Asset Store section
+          of the asset panel.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>Example of a resource</h3>
+        <p>
+          A resource instance is an asset that has been dragged onto the map.
+        </p>
+      </div>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create5.jpg"
+          alt="Resource instance on the map"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create5.jpg
+        </div>
+      </div>
+
+      <h3>Editing an asset instance</h3>
+
+      <p>
+        When we edit an asset instance, it will not affect other instances
+        or the original asset.
+      </p>
+
+      <p>
+        When you select <strong>"Apply to original"</strong>, the original
+        asset will be overwritten by the current asset instance, but other
+        existing instances on the map will not be affected.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create6.jpg"
+          alt="Apply changes to the original asset"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create6.jpg
+        </div>
+      </div>
+
+      <p>
+        When you select <strong>"Save new assets"</strong>, the current
+        asset instance will be saved as a new asset in the asset panel.
+      </p>
+
+      <h3>Editing the original asset</h3>
+
+      <p>
+        Enter the asset editing interface to modify the asset itself.
+        This will not affect other instances already on the map.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create7.jpg"
+          alt="Editing the original asset"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create7.jpg
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 3. DELETE ASSETS -->
+
+    <section id="delete-assets">
+
+      <h2>3. Delete assets</h2>
+
+      <h3>Delete an asset</h3>
+
+      <p>
+        To delete an asset, click the gear icon and then click
+        <strong>Delete</strong>.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create8.jpg"
+          alt="Deleting an asset"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create8.jpg
+        </div>
+      </div>
+
+      <h3>Delete an asset in the library</h3>
+
+      <p>
+        Currently, assets in the asset library cannot be deleted.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create9.jpg"
+          alt="Asset library deletion information"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create9.jpg
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 4. FOLDER ASSETS -->
+
+    <section id="folder-assets">
+
+      <h2>4. Folder assets</h2>
+
+      <h3>1. Create a folder</h3>
+
+      <p>
+        As our resources accumulate, the resource section can become
+        cluttered. Creating folders can help organize and tidy up
+        existing resources.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create10.jpg"
+          alt="Creating a resource folder"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create10.jpg
+        </div>
+      </div>
+
+      <h3>2. Move assets</h3>
+
+      <ol>
+        <li>
+          Click the gear icon and select <strong>"Move to"</strong>.
+        </li>
+        <li>
+          Long-press the asset, then drag and drop it directly into
+          the folder.
+        </li>
+      </ol>
+
+    </section>
+
+
+    <!-- 5. COPY ASSETS -->
+
+    <section id="copy-assets">
+
+      <h2>5. Copy assets</h2>
+
+      <p>
+        Copying an asset will create a copy of the current asset.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create11.jpg"
+          alt="Copying an asset"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create11.jpg
+        </div>
+      </div>
+
+      <p>
+        When copying assets, you can change the type of the current asset.
+      </p>
+
+      <div class="note">
+        <p>
+          <strong>Note:</strong>
+          The asset type cannot be changed when copying a Tiles asset.
+        </p>
+      </div>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create12.jpg"
+          alt="Changing an asset type while copying"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create12.jpg
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 6. ASSET IMAGE FOLDER -->
+
+    <section id="image-folder">
+
+      <h2>6. Asset Image Folder</h2>
+
+      <p>
+        When a resource has multiple images or animations, the resource
+        will be stored as a folder in the resource library.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create13.jpg"
+          alt="Asset image folder"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create13.jpg
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 7. ADD COMPONENTS -->
+
+    <section id="add-components">
+
+      <h2>7. Add components to the images</h2>
+
+      <p>
+        Adding components can give assets functionality, but note that
+        different types of assets can have different components added.
+      </p>
+
+      <div class="image-card">
+        <img
+          src="docs/images/create14.jpg"
+          alt="Adding components to asset images"
+          loading="lazy"
+        >
+        <div class="image-caption">
+          Image: docs/images/create14.jpg
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    Builda Wiki — Basic Documentation
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const sidebar = document.getElementById("sidebar");
+
+    const contentsButton = document.getElementById("contentsButton");
+    const contentsList = document.getElementById("contentsList");
+    const contentsTitle = document.getElementById("contentsTitle");
+
+    // Open and close the three-stick navigation menu.
+    menuButton.addEventListener("click", () => {
+      const isOpen = sidebar.classList.toggle("open");
+
+      menuButton.setAttribute("aria-expanded", isOpen);
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+    });
+
+    // Expand or collapse the contents list.
+    contentsButton.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        return;
+      }
+
+      const isOpen = contentsList.classList.toggle("open");
+
+      contentsTitle.textContent = isOpen
+        ? "▼ Contents"
+        : "▶ Contents";
+    });
+
+    // Close the sidebar after choosing a link.
+    document
+      .querySelectorAll(".sidebar a, .contents-list a")
+      .forEach((link) => {
+        link.addEventListener("click", () => {
+          sidebar.classList.remove("open");
+          menuButton.setAttribute("aria-expanded", "false");
+        });
+      });
+
+    // Language button placeholder.
+    document
+      .getElementById("languageButton")
+      .addEventListener("click", () => {
+        alert("Chinese translation is not available yet.");
+      });
+  </script>
+
+</body>
+</html>
