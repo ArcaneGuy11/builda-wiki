@@ -37,6 +37,13 @@ section{padding:0 0 60px;margin-bottom:60px;border-bottom:1px solid var(--line)}
 <section id="triggers"><h2>📍 3.4 Triggering Timing</h2><p>Triggering events involves writing scripts based on existing events, such as when an object starts. In this example, we need to write three triggering event scripts.</p><div class="subheading">1. Initialize the component + farmland display</div><p>When we first enter the game, we need to assign the values in the configuration table to the component properties and call the <strong>"Display Object"</strong> command to update the appearance of the field.</p><div class="image-card"><img src="docs/images/components4.jpg" alt="Initialize component and farmland display"><div class="image-caption">Image: docs/images/components4.jpg</div></div><div class="subheading">2. Click logic</div><p>When clicked, if the land hasn't been cultivated yet, a cultivation check will be performed; if it has already been cultivated, payment will be collected directly.</p><div class="image-card"><img src="docs/images/components5.jpg" alt="Click logic"><div class="image-caption">Image: docs/images/components5.jpg</div></div><div class="subheading">3. Added gold coin logic</div><p>If the fields have already been cultivated, then each time the production time is reached, the corresponding amount of gold coins will be produced. This is an infinite loop script.</p><div class="image-card"><img src="docs/images/components6.jpg" alt="Added gold coin logic"><div class="image-caption">Image: docs/images/components6.jpg</div></div></section>
 <section id="appendix"><h2>📍 3.5 Appendix</h2><p>The above example requires a configuration table to configure the basic data for each field; and a player table to record the cultivation status of each field.</p><div class="image-card"><img src="docs/images/components7.jpg" alt="Configuration and player tables"><div class="image-caption">Image: docs/images/components7.jpg</div></div></section>
 </main>
+  
+  <!-- FOOTER -->
+
+  <footer>
+    Builda Wiki — Basic Documentation
+  </footer>
+  
 <script>
 const menuButton=document.getElementById('menuButton'),sideMenu=document.getElementById('sideMenu'),contentsButton=document.getElementById('contentsButton'),contentsList=document.getElementById('contentsList');
 menuButton.addEventListener('click',()=>{const open=sideMenu.classList.toggle('open');menuButton.setAttribute('aria-expanded',open)});
